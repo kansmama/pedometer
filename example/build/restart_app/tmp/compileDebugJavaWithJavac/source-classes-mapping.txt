@@ -1,0 +1,2 @@
+gabrimatic/info/restart/BuildConfig.java
+ gabrimatic.info.restart.BuildConfig

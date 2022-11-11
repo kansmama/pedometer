@@ -1,0 +1,4 @@
+io/flutter/plugins/GeneratedPluginRegistrant.java
+ io.flutter.plugins.GeneratedPluginRegistrant
+com/example/pedometer_example/BuildConfig.java
+ com.example.pedometer_example.BuildConfig

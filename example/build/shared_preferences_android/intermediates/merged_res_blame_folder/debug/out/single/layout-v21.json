@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "D:\\Projects\\pedProjects\\pedometer\\example\\build\\shared_preferences_android\\intermediates\\res\\merged\\debug\\layout-v21\\notification_template_custom_big.xml",
+        "source": "C:\\Users\\Welcome\\.gradle\\caches\\transforms-2\\files-2.1\\994708e1e6653878baeebd8231af8667\\core-1.6.0\\res\\layout-v21\\notification_template_custom_big.xml"
+    },
+    {
+        "merged": "D:\\Projects\\pedProjects\\pedometer\\example\\build\\shared_preferences_android\\intermediates\\res\\merged\\debug\\layout-v21\\notification_template_icon_group.xml",
+        "source": "C:\\Users\\Welcome\\.gradle\\caches\\transforms-2\\files-2.1\\994708e1e6653878baeebd8231af8667\\core-1.6.0\\res\\layout-v21\\notification_template_icon_group.xml"
+    },
+    {
+        "merged": "D:\\Projects\\pedProjects\\pedometer\\example\\build\\shared_preferences_android\\intermediates\\res\\merged\\debug\\layout-v21\\notification_action_tombstone.xml",
+        "source": "C:\\Users\\Welcome\\.gradle\\caches\\transforms-2\\files-2.1\\994708e1e6653878baeebd8231af8667\\core-1.6.0\\res\\layout-v21\\notification_action_tombstone.xml"
+    },
+    {
+        "merged": "D:\\Projects\\pedProjects\\pedometer\\example\\build\\shared_preferences_android\\intermediates\\res\\merged\\debug\\layout-v21\\notification_action.xml",
+        "source": "C:\\Users\\Welcome\\.gradle\\caches\\transforms-2\\files-2.1\\994708e1e6653878baeebd8231af8667\\core-1.6.0\\res\\layout-v21\\notification_action.xml"
+    }
+]
