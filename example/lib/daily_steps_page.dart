@@ -177,16 +177,22 @@ class _DailyStepsPageState extends State<DailyStepsPage> {
     // load the last day saved using a package of your choice here
 
     //int lastDaySaved = int.parse(stepsBox.get(lastDaySavedKey, defaultValue: 0).toString());
-
+    //prefs.setString(lastDaySavedKey,"20221111");
+    //prefs.setInt(bufferKey,2937);
     String lastDaySaved = prefs.getString(lastDaySavedKey)??"0";
-
+    /*print("Last day Saved is "+ lastDaySaved);
+    print("Saved step count: " + prefs.getInt(savedStepsCountKey).toString());
+    print("Steps saved for last day: " + prefs.getInt(lastDaySaved).toString());
+    print("Buffer step count: " + prefs.getInt(bufferKey).toString());*/
     // When the day changes, reset the daily steps count 👇👇
     // and Update the last day saved as the day changes. 👇👇
     if (int.parse(todayDayNo) > int.parse(lastDaySaved)) {
-      savedStepsCount = prefs.getInt(savedStepsCountKey)??0 + prefs.getInt(lastDaySaved)??0;
+      savedStepsCount = prefs.getInt(savedStepsCountKey) + prefs.getInt(lastDaySaved) - prefs.getInt(bufferKey);
+      print("Steps saved for last day calculated: " + savedStepsCount.toString());
       /*👆👆 the steps of the lastDaySaved will now accumulate to savedStepsCount that needs
       to be subtracted for today Step count */
       await prefs.setInt(savedStepsCountKey, savedStepsCount);
+      print("Steps saved for last day: " + prefs.getInt(lastDaySaved).toString());
       /*👆👆 portion of the device returned steps that belong to a previous date - being updated with
       lastDaySaved steps */
       lastDaySaved = todayDayNo;
