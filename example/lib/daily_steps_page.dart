@@ -187,6 +187,8 @@ class _DailyStepsPageState extends State<DailyStepsPage> {
     // When the day changes, reset the daily steps count 👇👇
     // and Update the last day saved as the day changes. 👇👇
     if (int.parse(todayDayNo) > int.parse(lastDaySaved)) {
+      todaySteps = prefs.getInt(bufferKey) + value.steps - int.parse(savedStepsCount.toString());
+      await prefs.setInt(lastDaySaved,todaySteps);
       savedStepsCount = prefs.getInt(savedStepsCountKey) + prefs.getInt(lastDaySaved) - prefs.getInt(bufferKey);
       print("Steps saved for last day calculated: " + savedStepsCount.toString());
       /*👆👆 the steps of the lastDaySaved will now accumulate to savedStepsCount that needs
@@ -209,6 +211,7 @@ class _DailyStepsPageState extends State<DailyStepsPage> {
       /*value referenced by bufferKey are steps of today before a device restart.
       Making them 0 as the date changed.
        */
+      todaySteps = prefs.getInt(bufferKey) + value.steps - int.parse(savedStepsCount.toString());
     } else {
       if ((value.steps < int.parse(savedStepsCount.toString())) || ((value.steps == 0) && int.parse(savedStepsCount.toString()) == 0)) {
         // Upon device reboot, pedometer resets. When this happens, the saved counter must be reset as well.
