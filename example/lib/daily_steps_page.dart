@@ -144,15 +144,18 @@ class _DailyStepsPageState extends State<DailyStepsPage> {
   void _onError(error) => print("Flutter Pedometer Error: $error");
 
   void getTodaySteps(StepCount value) async {
+    print("getTodaySteps called.. printing steps value");
     print(value);//Just printing the latest step count data (since last restart of the device)
     //await prefs.setInt(((Jiffy(DateTime.now()).subtract(days: 1)).year).toString() + ((Jiffy(DateTime.now()).subtract(days: 1)).dayOfYear).toString(),prefs.getInt('286'));
     //stepsBox = await Hive.openBox<int>('steps');
 
     //int savedStepsCount = int.parse(stepsBox.get(savedStepsCountKey, defaultValue: 0).toString());
     if(prefs.getInt(savedStepsCountKey)!=null) {
+      print("savedStepsCountKey not null");
       print(prefs.getInt(savedStepsCountKey));
       //printing how many of device returned step count is from previous dates
     } else {
+      print("savedStepsCountKey is null");
       print("0");
     }
     int savedStepsCount = prefs.getInt(savedStepsCountKey)??0;
@@ -177,8 +180,6 @@ class _DailyStepsPageState extends State<DailyStepsPage> {
     // load the last day saved using a package of your choice here
 
     //int lastDaySaved = int.parse(stepsBox.get(lastDaySavedKey, defaultValue: 0).toString());
-    //prefs.setString(lastDaySavedKey,"20221111");
-    //prefs.setInt(bufferKey,2937);
     String lastDaySaved = prefs.getString(lastDaySavedKey)??"0";
     /*print("Last day Saved is "+ lastDaySaved);
     print("Saved step count: " + prefs.getInt(savedStepsCountKey).toString());
@@ -232,9 +233,11 @@ class _DailyStepsPageState extends State<DailyStepsPage> {
     setState(() {
       todayDayNo = (Jiffy(DateTime.now()).year).toString() + ((Jiffy(DateTime.now()).month).toString()).padLeft(2,'0') + ((Jiffy(DateTime.now()).date).toString()).padLeft(2,'0');
       String lastDaySaved = prefs.getString(lastDaySavedKey)??"0";
+      /*👇👇If date has changed, we need to restart the app so that date change code runs in getTodaySteps() method👇👇*/
       if (int.parse(todayDayNo) > int.parse(lastDaySaved)) {
         Restart.restartApp();
       }
+      savedStepsCount = prefs.getInt(savedStepsCountKey)??0;
       todaySteps = prefs.getInt(bufferKey) + value.steps - int.parse(savedStepsCount.toString());
       prefs.setInt(todayDayNo, todaySteps);
         //thisWeeksSteps += todaySteps;
