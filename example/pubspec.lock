@@ -303,6 +303,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.7.0"
+  just_logcat:
+    dependency: transitive
+    description:
+      name: just_logcat
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.1"
   logging:
     dependency: transitive
     description:

@@ -50,6 +50,12 @@
       "languageVersion": "2.17"
     },
     {
+      "name": "just_logcat",
+      "rootUri": "file:///C:/Users/Welcome/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/just_logcat-0.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.16"
+    },
+    {
       "name": "matcher",
       "rootUri": "file:///C:/Users/Welcome/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/matcher-0.12.12",
       "packageUri": "lib/",
@@ -128,7 +134,7 @@
       "languageVersion": "2.12"
     }
   ],
-  "generated": "2022-10-21T12:06:02.031973Z",
+  "generated": "2022-11-25T06:48:10.375880Z",
   "generator": "pub",
   "generatorVersion": "2.18.2"
 }

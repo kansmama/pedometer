@@ -7,6 +7,7 @@ import 'package:jiffy/jiffy.dart';
 import 'package:pedometer/pedometer.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+//import 'package:just_logcat/just_logcat.dart';
 
 class DailyStepsPage extends StatefulWidget {
   @override
@@ -26,8 +27,10 @@ class _DailyStepsPageState extends State<DailyStepsPage> {
   String savedStepsCountKey = '999999';
   String lastDaySavedKey = '888888';
   String bufferKey = '777777';
+  String tempSavedStepsKey = '666666';
   int tempSavedSteps = 0;
   bool phoneRestarted = false;
+  //static const tag = 'daily_steps_page.dart';
 
   final Color carbonBlack = Color(0xff1a1a1a);
 
@@ -153,6 +156,7 @@ class _DailyStepsPageState extends State<DailyStepsPage> {
     if(prefs.getInt(savedStepsCountKey)!=null) {
       print("savedStepsCountKey not null");
       print(prefs.getInt(savedStepsCountKey));
+      //Log.i(tag, 'checking savedStepsCount for null' + prefs.getInt(savedStepsCountKey).toString());
       //printing how many of device returned step count is from previous dates
     } else {
       print("savedStepsCountKey is null");
@@ -178,20 +182,17 @@ class _DailyStepsPageState extends State<DailyStepsPage> {
 
     //int bufferSteps = int.parse(stepsBox.get(bufferKey, defaultValue: 0).toString());
     // load the last day saved using a package of your choice here
-
+    //await prefs.setString(lastDaySavedKey,"20220920");
     //int lastDaySaved = int.parse(stepsBox.get(lastDaySavedKey, defaultValue: 0).toString());
     String lastDaySaved = prefs.getString(lastDaySavedKey)??"0";
-    /*print("Last day Saved is "+ lastDaySaved);
-    print("Saved step count: " + prefs.getInt(savedStepsCountKey).toString());
-    print("Steps saved for last day: " + prefs.getInt(lastDaySaved).toString());
-    print("Buffer step count: " + prefs.getInt(bufferKey).toString());*/
     // When the day changes, reset the daily steps count 👇👇
     // and Update the last day saved as the day changes. 👇👇
     if (int.parse(todayDayNo) > int.parse(lastDaySaved)) {
-      todaySteps = prefs.getInt(bufferKey) + value.steps - int.parse(savedStepsCount.toString());
-      await prefs.setInt(lastDaySaved,todaySteps);
-      savedStepsCount = prefs.getInt(savedStepsCountKey) + prefs.getInt(lastDaySaved) - prefs.getInt(bufferKey);
-      print("Steps saved for last day calculated: " + savedStepsCount.toString());
+      /*int lastDaySteps = prefs.getInt(bufferKey) + value.steps - int.parse(savedStepsCount.toString());
+      await prefs.setInt(lastDaySaved,lastDaySteps);*/
+      int unallocatedSteps = prefs.getInt(bufferKey) + value.steps - int.parse(savedStepsCount.toString()) - prefs.getInt(lastDaySaved);
+      await prefs.setInt(todayDayNo + "unallocated",unallocatedSteps);
+      savedStepsCount = value.steps;
       /*👆👆 the steps of the lastDaySaved will now accumulate to savedStepsCount that needs
       to be subtracted for today Step count */
       await prefs.setInt(savedStepsCountKey, savedStepsCount);
@@ -206,17 +207,16 @@ class _DailyStepsPageState extends State<DailyStepsPage> {
       //stepsBox
       // ..put(lastDaySavedKey, lastDaySaved)
       // ..put(savedStepsCountKey, savedStepsCount);
-
-
       await prefs.setInt(bufferKey, 0);
       /*value referenced by bufferKey are steps of today before a device restart.
       Making them 0 as the date changed.
        */
-      todaySteps = prefs.getInt(bufferKey) + value.steps - int.parse(savedStepsCount.toString());
+      todaySteps = int.parse(prefs.getInt(bufferKey).toString()) + value.steps - int.parse(savedStepsCount.toString());
     } else {
       if ((value.steps < int.parse(savedStepsCount.toString())) || ((value.steps == 0) && int.parse(savedStepsCount.toString()) == 0)) {
         // Upon device reboot, pedometer resets. When this happens, the saved counter must be reset as well.
         tempSavedSteps = int.parse(savedStepsCount.toString());
+        await prefs.setInt(tempSavedStepsKey, tempSavedSteps);
         savedStepsCount = 0;
         phoneRestarted = true;
         // persist this value using a package of your choice here
@@ -231,11 +231,13 @@ class _DailyStepsPageState extends State<DailyStepsPage> {
 
 
     setState(() {
+      //Log.i(tag,'setState called');
       todayDayNo = (Jiffy(DateTime.now()).year).toString() + ((Jiffy(DateTime.now()).month).toString()).padLeft(2,'0') + ((Jiffy(DateTime.now()).date).toString()).padLeft(2,'0');
       String lastDaySaved = prefs.getString(lastDaySavedKey)??"0";
       /*👇👇If date has changed, we need to restart the app so that date change code runs in getTodaySteps() method👇👇*/
       if (int.parse(todayDayNo) > int.parse(lastDaySaved)) {
         Restart.restartApp();
+        return;
       }
       savedStepsCount = prefs.getInt(savedStepsCountKey)??0;
       todaySteps = prefs.getInt(bufferKey) + value.steps - int.parse(savedStepsCount.toString());
@@ -254,6 +256,7 @@ class _DailyStepsPageState extends State<DailyStepsPage> {
     });
     //stepsBox.put(todayDayNo, todaySteps);
     await prefs.setInt(todayDayNo, todaySteps);
+    //Log.i(tag,'setState call ending. todaySteps = ' + todaySteps.toString());
     //return todaySteps; // this is your daily steps value.
   }
 
